@@ -194,6 +194,7 @@ header {
 }
 .nav-img {
   height: 30px;
+  max-width: 30px;
 }
 
 .nav-upper-options {
