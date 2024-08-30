@@ -1,0 +1,21 @@
+.bg-login {
+    background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url(../src/assets/images/bg-login.jpg);
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-login .card {
+    background: transparent;
+    backdrop-filter: blur(20px);
+    color: #fff;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, .25);
+}
+
+.bg-login .card-body {
+    padding: 50px 20px;
+}
