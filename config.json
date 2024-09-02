@@ -1,4 +1,4 @@
 {
-    "base_url": "https://pos.onlineovation.com/api/",
-    "site_url": "https://pos-nine-delta.vercel.app/"
+    "base_url": "http://127.0.0.1:8000/api/",
+    "site_url": "http://localhost:5173/"
 }

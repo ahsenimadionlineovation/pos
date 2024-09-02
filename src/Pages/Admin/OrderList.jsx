@@ -21,15 +21,12 @@ const OrderList = () => {
                     },
                 });
                 const adminData = response.data.user;
-                
                 fetchOrders(adminData.store_id);
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
         }
     };
-
-
 
     const fetchOrders = async (storeId) => {
         try {
@@ -46,7 +43,6 @@ const OrderList = () => {
 
     useEffect(() => {
         fetchUserData();
-        fetchOrders();
     }, []);
 
     return (
@@ -65,11 +61,11 @@ const OrderList = () => {
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Store</th>
                                         <th>Branch</th>
                                         <th>Table</th>
                                         <th>User</th>
                                         <th>Status</th>
+                                        <th>Menu Items</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -78,14 +74,20 @@ const OrderList = () => {
                                         orders.map(order => (
                                             <tr key={order.id}>
                                                 <td>{order.id}</td>
-                                                <td>{order.store.name}</td>
                                                 <td>{order.branch.name}</td>
                                                 <td>{order.table.table_number}</td>
                                                 <td>{order.user.name}</td>
                                                 <td>{order.status}</td>
                                                 <td>
-                                                    <button className="btn btn-primary">Edit</button>
-                                                    <button className="btn btn-danger">Delete</button>
+                                                    {order.items.map(item => (
+                                                        <div key={item.id}>
+                                                            <strong>{item.menu_item.name}</strong> - Qty: {item.quantity}
+                                                        </div>
+                                                    ))}
+                                                </td>
+                                                <td>
+                                                    <button className="btn btn-primary btn-sm">Edit</button>
+                                                    <button className="btn btn-danger btn-sm">Delete</button>
                                                 </td>
                                             </tr>
                                         ))

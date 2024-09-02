@@ -3,8 +3,10 @@ import AdminHeader from '../../Components/AdminHeader';
 import AdminSidebar from '../../Components/AdminSidebar';
 import axios from 'axios';
 import ENV from '../../../config.json';
+import { useNavigate } from 'react-router-dom';
 
 const AddOrder = () => {
+    const navigate = useNavigate();
     const [order, setOrder] = useState({
         store_id: '',
         branch_id: '',
@@ -131,15 +133,29 @@ const AddOrder = () => {
         });
     };
 
+    // Convert order object to query string format
+    const formatOrderForAPI = () => {
+        const params = new URLSearchParams();
+        params.append('store_id', order.store_id);
+        params.append('branch_id', order.branch_id);
+        params.append('table_id', order.table_id);
+        params.append('user_id', order.user_id);
+        order.menu_items.forEach((item, index) => {
+            params.append(`items[${index}][menuitem_id]`, item.menuitem_id);
+            params.append(`items[${index}][quantity]`, item.quantity);
+        });
+        return params;
+    };
+
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log(order)
-            const response = await axios.post(`${ENV.base_url}orders`, order, {
+            const params = formatOrderForAPI();
+            console.log(params)
+            const response = await axios.post(`${ENV.base_url}orders`, params, {
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
                     'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
                 }
             });
@@ -147,6 +163,7 @@ const AddOrder = () => {
             // Handle successful order submission
             console.log('Order submitted successfully:', response.data);
             // Redirect or display success message as needed
+            navigate('/admin/orders');
         } catch (error) {
             console.error('Error adding order:', error);
             // Handle error (e.g., display error message to user)
