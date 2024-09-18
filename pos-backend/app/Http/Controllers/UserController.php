@@ -31,6 +31,7 @@ class UserController extends Controller
         $fields = $request->validate([
             'user_id' => ['required'],
             'store_id' => ['required'],
+            'branch_id' => ['required'],
             'name' => ['required', 'string'],
             'phone' => ['required', 'string', 'unique:users,phone'],
             'email' => ['required', 'email', 'unique:users,email'],

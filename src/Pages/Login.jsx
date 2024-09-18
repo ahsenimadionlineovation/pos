@@ -39,22 +39,23 @@ const Login = () => {
   return (
     <>
       <div className="bg-login">
-        <div className="col-md-6 col-lg-4">
+        <div className="col-md-6 col-lg-4 py-5">
           <div className="card">
             <div className="card-header p-5">
               <h4 className='mb-0 text-center'>Login</h4>
             </div>
             <div className="card-body pt-0">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className='custom-form'>
                 {error && <div className="alert alert-danger">{error}</div>}
                 <div className="mb-3">
                   <label className="form-label">Email address</label>
                   <input
                     type="email"
-                    className="form-control"
+                    className="form-control bg-transparent"
                     name="email"
                     value={user.email}
                     onChange={handleChange}
+                    placeholder='Enter your email'
                     required
                   />
                 </div>
@@ -62,10 +63,11 @@ const Login = () => {
                   <label className="form-label">Password</label>
                   <input
                     type="password"
-                    className="form-control"
+                    className="form-control bg-transparent"
                     name="password"
                     value={user.password}
                     onChange={handleChange}
+                    placeholder='Enter your password'
                     required
                   />
                 </div>

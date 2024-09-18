@@ -18,6 +18,12 @@ const AddMenuItem = () => {
     const [branches, setBranches] = useState([]);
     const userApi = `${ENV.base_url}users/email`;
     const branchesApi = `${ENV.base_url}branches/store`;
+    const [navClose, setNavClose] = useState(false);
+    const activeTab = 'menuitems';
+
+    const toggleNav = () => {
+        setNavClose(!navClose);
+    };
 
     const fetchUserData = async () => {
         const authEmail = localStorage.getItem('auth_email');
@@ -84,9 +90,9 @@ const AddMenuItem = () => {
 
     return (
         <>
-            <AdminHeader />
+            <AdminHeader onMenuClick={toggleNav} />
             <div className="main-container">
-                <AdminSidebar />
+                <AdminSidebar navClose={navClose} activeTab={activeTab} />
                 <div className="main">
                     <div className="report-container">
                         <div className="report-header">

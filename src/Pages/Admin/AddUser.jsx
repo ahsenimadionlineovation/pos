@@ -21,6 +21,7 @@ const AddUser = () => {
     const [user, setUser] = useState({
         store_id: '',
         user_id: '',
+        branch_id: '',
         name: '',
         email: '',
         password: '',
@@ -32,6 +33,7 @@ const AddUser = () => {
     const [errors, setErrors] = useState({
         store_id: '',
         user_id: '',
+        branch_id: '',
         name: '',
         email: '',
         password: '',
@@ -42,11 +44,11 @@ const AddUser = () => {
 
     const [success, setSuccess] = useState('');
     const [danger, setDanger] = useState('');
+    const [branches, setBranches] = useState([]);
 
     useEffect(() => {
         const fetchUserData = async () => {
             const authEmail = localStorage.getItem('auth_email');
-            console.warn(authEmail)
             if (authEmail) {
                 try {
                     const response = await axios.get(`${userApi}${authEmail}`, {
@@ -69,10 +71,27 @@ const AddUser = () => {
                     console.log("User State after setting admin data:", {
                         store_id: adminData.store_id,
                         user_id: adminData.id,
+                        role: adminData.role
                     });
+                    fetchBranches(adminData.store_id);
                 } catch (error) {
                     console.error('Error fetching user data:', error);
                 }
+            }
+        };
+
+        const fetchBranches = async (storeId) => {
+            try {
+                const response = await axios.get(`${ENV.base_url}branches/store/${storeId}`, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+                    },
+                });
+                setBranches(response.data.branches);
+            } catch (error) {
+                console.error('Error fetching branches:', error);
             }
         };
 
@@ -85,7 +104,6 @@ const AddUser = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Submitting User:', user);
         try {
             const response = await axios.post(api, user, {
                 headers: {
@@ -161,6 +179,22 @@ const AddUser = () => {
                                     />
                                     {errors.phone && <p className="text-danger">{errors.phone}</p>}
                                 </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="branch_id">Branch</label>
+                                    <select
+                                        id="branch_id"
+                                        name="branch_id"
+                                        className="form-control"
+                                        value={user.branch_id}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="">Select Branch</option>
+                                        {branches.map(branch => (
+                                            <option key={branch.id} value={branch.id}>{branch.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
                                 <div className="mb-3">
                                     <label>Password</label>
                                     <input
@@ -192,7 +226,7 @@ const AddUser = () => {
                                         onChange={handleChange}
                                     >
                                         <option value="">Select role</option>
-                                        <option value="manager">Manager</option>
+                                        {admin.role == 'owner' && <option value="manager">Manager</option>}
                                         <option value="server">Server</option>
                                         <option value="kitchen">Kitchen</option>
                                         <option value="cashier">Cashier</option>

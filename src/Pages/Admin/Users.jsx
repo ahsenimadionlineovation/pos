@@ -13,6 +13,7 @@ const Users = () => {
     const [success, setSuccess] = useState('');
     const activeTab = 'users';
     const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const toggleNav = () => {
         setNavClose(!navClose);
@@ -32,7 +33,6 @@ const Users = () => {
                     });
                     const adminData = response.data.user;
                     setAdmin(adminData);
-                    console.log("Admin Data:", adminData);
                 } catch (error) {
                     console.error('Error fetching user data:', error);
                 }
@@ -56,9 +56,10 @@ const Users = () => {
                     // Filter out the current user
                     const filteredUsers = response.data.users.filter(user => user.id !== admin.id);
                     setUsers(filteredUsers);
-                    console.log("Users:", filteredUsers);
                 } catch (error) {
                     console.error('Error fetching users:', error);
+                } finally {
+                    setLoading(false); 
                 }
             };
 
@@ -93,43 +94,50 @@ const Users = () => {
                 <AdminSidebar navClose={navClose} activeTab={activeTab} />
                 <div className="main">
                     <div className="report-container">
-                        <div className="report-header">
-                            <h1 className="recent-Articles">User lists</h1>
-                            <Link to='/admin/adduser' className="btn view">Add</Link>
-                        </div>
-                        <div className="report-body table-responsive">
-                            {success && <p className="text-success">{success}</p>}
-                            <table className="table table-bordered table-striped table-hover">
-                                <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Phone</th>
-                                    <th scope="col">Role</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {users.map((user, index) => (
-                                    <tr key={index}>
-                                        <td>{user.name}</td>
-                                        <td>{user.email}</td>
-                                        <td>{user.phone}</td>
-                                        <td>{user.role}</td>
-                                        <td>
-                                            <Link to={`/admin/edituser/${user.id}`} className="btn btn-info btn-sm me-1">Edit</Link>
-                                            <button
-                                                className="btn btn-danger btn-sm"
-                                                onClick={() => handleDelete(user.id)}
-                                            >
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
-                        </div>
+                        {loading ? (
+                            <div className='text-center py-5'>Loading...</div>
+                            ) : (
+                                <>
+                                    <div className="report-header">
+                                        <h1 className="recent-Articles">User lists</h1>
+                                        <Link to='/admin/adduser' className="btn view">Add</Link>
+                                    </div>
+                                    <div className="report-body table-responsive">
+                                        {success && <p className="text-success">{success}</p>}
+                                        <table className="table table-bordered table-striped table-hover">
+                                            <thead className="thead-dark">
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Phone</th>
+                                                <th scope="col">Role</th>
+                                                {admin.role == 'owner' && <th scope="col">Actions</th>}
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {users.map((user, index) => (
+                                                <tr key={index}>
+                                                    <td>{user.name}</td>
+                                                    <td>{user.email}</td>
+                                                    <td>{user.phone}</td>
+                                                    <td>{user.role}</td>
+                                                    {admin.role == 'owner' && <td>
+                                                        <Link to={`/admin/edituser/${user.id}`} className="btn btn-info btn-sm me-1">Edit</Link>
+                                                        <button
+                                                            className="btn btn-danger btn-sm"
+                                                            onClick={() => handleDelete(user.id)}
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </td>}
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </>
+                            )
+                        }
                     </div>
                 </div>
             </div>

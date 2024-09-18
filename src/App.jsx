@@ -23,6 +23,13 @@ import MenuItemList from './Pages/Admin/MenuItemList';
 import AddMenuItem from './Pages/Admin/AddMenuItem';
 import EditMenuItem from './Pages/Admin/EditMenuItem';
 import EditOrder from './Pages/Admin/EditOrder';
+import VendorList from './Pages/Admin/VendorList';
+import AddVendor from './Pages/Admin/AddVendor';
+// import EditVendor from './Pages/Admin/EditVendor';
+import VendorItemList from './Pages/Admin/VendorItemList';
+import AddVendorItem from './Pages/Admin/AddVendorItem';
+import EditVendorItem from './Pages/Admin/EditVendorItem';
+import Profile from './Pages/Admin/Profile';
 
 const App = () => {
   return (
@@ -175,6 +182,62 @@ const App = () => {
                     <EditMenuItem />
                 </AuthGuard>
             }
+        />
+        <Route
+          path="/admin/vendors"
+          element={
+            <AuthGuard redirectPath="/">
+              <VendorList />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/admin/addvendor"
+          element={
+            <AuthGuard redirectPath="/">
+              <AddVendor />
+            </AuthGuard>
+          }
+        />
+        {/* <Route
+          path="/admin/editvendor/:id"
+          element={
+            <AuthGuard redirectPath="/">
+              <EditVendor />
+            </AuthGuard>
+          }
+        /> */}
+        <Route
+          path="/admin/vendoritems"
+          element={
+            <AuthGuard redirectPath="/">
+              <VendorItemList />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/admin/addvendoritem"
+          element={
+            <AuthGuard redirectPath="/">
+              <AddVendorItem />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/admin/editvendoritem/:id"
+          element={
+            <AuthGuard redirectPath="/">
+              <EditVendorItem />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/admin/profile"
+          element={
+            <AuthGuard redirectPath="/">
+              <Profile />
+            </AuthGuard>
+          }
         />
       </Routes>
     </BrowserRouter>

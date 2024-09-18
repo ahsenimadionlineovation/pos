@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id', 'store_id', 'name', 'phone', 'email', 'password', 'role',
+        'user_id', 'store_id', 'branch_id', 'name', 'phone', 'email', 'password', 'role',
     ];
 
     /**
@@ -46,5 +46,9 @@ class User extends Authenticatable
 
     public function store() {
         return $this->hasOne(Store::class);
+    }
+
+    public function user() {
+        return $this->hasOne(Branch::class);
     }
 }

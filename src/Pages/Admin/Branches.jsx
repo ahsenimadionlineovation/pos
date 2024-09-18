@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import AdminHeader from '../../Components/AdminHeader';
 import AdminSidebar from '../../Components/AdminSidebar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ENV from '../../../config.json';
 
 const Branches = () => {
     const api = `${ENV.base_url}branches/store/`;
     const userApi = `${ENV.base_url}users/email`;
+    const [loading, setLoading] = useState(true);
     const [branches, setBranches] = useState([]);
     const [admin, setAdmin] = useState([]);
     const [navClose, setNavClose] = useState(false);
     const activeTab = 'branches';
+    const navigate = useNavigate();
 
     const toggleNav = () => {
         setNavClose(!navClose);
@@ -42,6 +44,9 @@ const Branches = () => {
                                         'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
                                     },
                                 });
+                                if (admin.role === 'owner' && admin.role === 'manager') {
+                                    navigate('/admin')
+                                }
                                 setBranches(response.data.branches);
                             } catch (error) {
                                 console.error('Error fetching branches:', error);
@@ -52,6 +57,8 @@ const Branches = () => {
                     }
                 } catch (error) {
                     console.error('Error fetching admin data:', error);
+                } finally {
+                    setLoading(false); 
                 }
             }
         };
@@ -83,38 +90,45 @@ const Branches = () => {
                 <AdminSidebar navClose={navClose} activeTab={activeTab} />
                 <div className="main">
                     <div className="report-container">
-                        <div className="report-header">
-                            <h1 className="recent-Articles">Branches</h1>
-                            <Link to='/admin/addbranch' className="btn view">Add</Link>
-                        </div>
-                        <div className="report-body table-responsive">
-                            <table className="table table-bordered table-striped table-hover">
-                                <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Branch Name</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {branches.map((branch, index) => (
-                                    <tr key={index}>
-                                        <td>{branch.name}</td>
-                                        <td>{branch.address}</td>
-                                        <td>
-                                            <Link to={`/admin/editbranch/${branch.id}`} className="btn btn-info btn-sm me-1">Edit</Link>
-                                            <button
-                                                className="btn btn-danger btn-sm"
-                                                onClick={() => handleDelete(branch.id)}
-                                            >
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
-                        </div>
+                        {loading ? (
+                            <div className='text-center py-5'>Loading...</div>
+                            ) : (
+                                <>
+                                    <div className="report-header">
+                                        <h1 className="recent-Articles">Branches</h1>
+                                        <Link to='/admin/addbranch' className="btn view">Add</Link>
+                                    </div>
+                                    <div className="report-body table-responsive">
+                                        <table className="table table-bordered table-striped table-hover">
+                                            <thead className="thead-dark">
+                                            <tr>
+                                                <th scope="col">Branch Name</th>
+                                                <th scope="col">Location</th>
+                                                {(admin.role == 'owner') && <th scope="col">Actions</th>}
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {branches.map((branch, index) => (
+                                                <tr key={index}>
+                                                    <td>{branch.name}</td>
+                                                    <td>{branch.address}</td>
+                                                    {(admin.role == 'owner') && <td>
+                                                        <Link to={`/admin/editbranch/${branch.id}`} className="btn btn-info btn-sm me-1">Edit</Link>
+                                                        <button
+                                                            className="btn btn-danger btn-sm"
+                                                            onClick={() => handleDelete(branch.id)}
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </td>}
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </>
+                            )
+                        }
                     </div>
                 </div>
             </div>

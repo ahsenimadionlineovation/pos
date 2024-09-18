@@ -64,7 +64,7 @@ const Signup = () => {
   return (
     <>
       <div className="bg-login">
-        <div className="col-md-6 py-5">
+        <div className="col-md-8 col-lg-6 py-5">
           <div className="card">
             <div className="card-header p-5">
               <h4 className='mb-0 text-center'>Signup</h4>
@@ -80,37 +80,49 @@ const Signup = () => {
               )}
             </div>
             <div className="card-body pt-0">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className='custom-form'>
                 <input type="hidden" name='role' value='owner' />
-                <div className="mb-3">
-                  <label className="form-label">Store name</label>
-                  <input type="text" className="form-control" name='storename' value={user.storename} onChange={handleChange} />
-                  {errors.storename && <small className="text-white">{errors.storename}</small>}
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="mb-3">
+                      <label className="form-label">Store name</label>
+                      <input type="text" className="form-control bg-transparent" name='storename' placeholder="Enter your storename" value={user.storename} onChange={handleChange} />
+                      {errors.storename && <small className="text-white">{errors.storename}</small>}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="mb-3">
+                      <label className="form-label">Username</label>
+                      <input type="text" className="form-control bg-transparent" name='name' placeholder="Enter your name" value={user.name} onChange={handleChange} />
+                      {errors.name && <small className="text-white">{errors.name}</small>}
+                    </div>
+                  </div>
                 </div>
-                <div className="mb-3">
-                  <label className="form-label">Username</label>
-                  <input type="text" className="form-control" name='name' value={user.name} onChange={handleChange} />
-                  {errors.name && <small className="text-white">{errors.name}</small>}
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Phone Number</label>
-                  <input type="text" className="form-control" name='phone' value={user.phone} onChange={handleChange} />
-                  {errors.phone && <small className="text-white">{errors.phone}</small>}
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Email address</label>
-                  <input type="email" className="form-control" name='email' value={user.email} onChange={handleChange} />
-                  {errors.email && <small className="text-white">{errors.email}</small>}
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="mb-3">
+                      <label className="form-label">Phone Number</label>
+                      <input type="text" className="form-control bg-transparent" name='phone' placeholder="Enter your phone" value={user.phone} onChange={handleChange} />
+                      {errors.phone && <small className="text-white">{errors.phone}</small>}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="mb-3">
+                      <label className="form-label">Email address</label>
+                      <input type="email" className="form-control bg-transparent" name='email' placeholder="Enter your email" value={user.email} onChange={handleChange} />
+                      {errors.email && <small className="text-white">{errors.email}</small>}
+                    </div>
+                  </div>
                 </div>
                 <div className="row">
                   <div className="col-md-6 mb-3">
                     <label className="form-label">Password</label>
-                    <input type="password" className="form-control" name='password' value={user.password} onChange={handleChange} />
+                    <input type="password" className="form-control bg-transparent" name='password' placeholder="Enter your password" value={user.password} onChange={handleChange} />
                     {errors.password && <small className="text-white">{errors.password}</small>}
                   </div>
                   <div className="col-md-6 mb-3">
                     <label className="form-label">Confirm Password</label>
-                    <input type="password" className="form-control" name='password_confirmation' value={user.password_confirmation} onChange={handleChange} />
+                    <input type="password" className="form-control bg-transparent" name='password_confirmation' placeholder="Enter your password confirmation" value={user.password_confirmation} onChange={handleChange} />
                     {errors.password_confirmation && <small className="text-danger">{errors.password_confirmation}</small>}
                   </div>
                 </div>

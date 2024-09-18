@@ -87,7 +87,7 @@ class AuthController extends Controller
 
     public function getUserByEmail($email)
     {
-        $user = User::where('email', $email)->first();
+        $user = User::where('email', $email)->with('store')->first();
 
         if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
@@ -102,6 +102,13 @@ class AuthController extends Controller
         $users = User::where('store_id', $store_id)->get();
         return response()->json([
             'users' => $users,
+        ], 200);
+    }
+
+    public function getStorebyid($store_id) {
+        $store = Store::where('id', $store_id)->first(); 
+        return response()->json([
+            'store' => $store,
         ], 200);
     }
 }

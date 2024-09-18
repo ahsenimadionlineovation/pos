@@ -12,6 +12,12 @@ const EditTable = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const userApi = ENV.base_url + 'users/email';
+    const [navClose, setNavClose] = useState(false);
+    const activeTab = 'tables';
+
+    const toggleNav = () => {
+        setNavClose(!navClose);
+    };
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -96,9 +102,9 @@ const EditTable = () => {
 
     return (
         <>
-            <AdminHeader />
+            <AdminHeader onMenuClick={toggleNav} />
             <div className="main-container">
-                <AdminSidebar />
+                <AdminSidebar navClose={navClose} activeTab={activeTab} />
                 <div className="main">
                     <div className="report-container">
                         <div className="report-header">

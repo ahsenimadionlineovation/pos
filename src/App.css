@@ -19,3 +19,16 @@
 .bg-login .card-body {
     padding: 50px 20px;
 }
+
+.custom-form .form-control::placeholder {
+    color: #616161;
+}
+
+.custom-form .form-label {
+    margin-bottom: .25rem;
+}
+
+.custom-form .form-control {
+    border: 1px solid rgba(255, 255, 255, .25);
+    color: #fff;
+}

@@ -42,7 +42,9 @@ header {
 .logo {
   font-size: 27px;
   font-weight: 600;
-  color: rgb(47, 141, 70);
+  color: var(--primary-color);
+  /* color: rgb(161, 182, 253); */
+  width: 80px;
 }
 
 .icn {
@@ -162,7 +164,7 @@ header {
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  padding: 30px 0 20px 10px;
+  /* padding: 30px 0; */
 }
 .navcontainer {
   height: calc(100vh - 70px);
@@ -171,12 +173,13 @@ header {
   overflow-y: scroll;
   overflow-x: hidden;
   transition: all 0.5s ease-in-out;
+  z-index: 9999;
 }
 .navcontainer::-webkit-scrollbar {
   display: none;
 }
 .navclose {
-  width: 80px;
+  width: 75px;
 }
 .nav-option {
   width: 250px;
@@ -335,6 +338,17 @@ header {
   border-radius: 4px;
 }
 
+.dashboard-card {
+  border: 1px solid transparent;
+  background: #ffffff;
+  transition: all ease 1s;
+  box-shadow: 3px 3px 10px rgb(188, 188, 188);
+}
+
+.dashboard-card:hover {
+  background: #D9E3FD;
+}
+
 /* Responsive CSS Here */
 @media screen and (max-width: 950px) {
   .nav-img {
@@ -424,6 +438,7 @@ header {
   }
   .nav-option {
     gap: 25px;
+    width: 90%;
   }
   .nav-option h3 {
     font-size: 12px;
@@ -438,6 +453,9 @@ header {
   .item1,
   .items {
     width: 550px;
+  }
+  .main {
+    padding: 10px;
   }
 }
 
@@ -495,4 +513,8 @@ header {
   .searchbar2 input {
     width: 180px;
   }
+}
+
+.accordion {
+  border: 1px solid var(--bs-border-color);
 }
